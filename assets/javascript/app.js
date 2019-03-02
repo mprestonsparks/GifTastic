@@ -10,14 +10,30 @@
 // *********************************************************************************************************
 
 // Open connection to the Giphy API
-// var APIKey = "skQePfC92zigpKm93AxiEg6K4RiNlDTy";
-// var queryURL = "http://api.giphy.com/v1/gifs/search?q=ryan+gosling&api_key="+APIKey+"&limit=10"
-// $.ajax({
-//     url: queryURL,
-//     method: "GET"
-//   }).then(function(response) {
-//     $("#movie-view").text(JSON.stringify(response));
-//   });
+var APIKey = "skQePfC92zigpKm93AxiEg6K4RiNlDTy";
+var queryURL = "http://api.giphy.com/v1/gifs/search?q=bill+murray&api_key="+APIKey+"&limit=10"
+$.ajax({
+    url: queryURL,
+    method: "GET"
+  }).then(function(response) {
+    $("#test2").append(response.data[0].rating);
+    // Saving the image_original_url property
+    var imageUrl = response.data[0].url;
+    console.log("imageURL",imageUrl);
+
+    // Creating and storing an image tag
+    var gifImage = $("<img>");
+
+    // Setting the catImage src attribute to imageUrl
+    gifImage.attr("src", imageUrl);
+    gifImage.attr("alt", "gif image");
+
+    // Prepending the catImage to the images div
+    $("#test1").prepend(gifImage);
+
+    $
+    console.log(response);
+  });
 
 // Create a list of GIF topics to initialize the site with
 // Create buttons from the topics list via loop
