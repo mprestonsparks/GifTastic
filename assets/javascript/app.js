@@ -43,7 +43,7 @@ $("button").on("click", function() {
     }).then(function(response) {
         for (i=0; i<10; i++) {
             rating = response.data[i].rating;
-            var test5 = response.data[i].images.original.url;
+            var test5 = response.data[i].images.fixed_width_still.url;
             imageURL = test5;
             createCard(rating,imageURL);
         }
