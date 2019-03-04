@@ -29,10 +29,11 @@ for (i = 0; i < topics.length; i++) {
 }
 
 // REQUIRED** When user clicks a button, retrieve 10 static, non-animated gif images from the GIPHY API and place them on the page
-$("button").on("click", function() {
+$(".gif-buttons").on("click", function() {
   // Clear existing gifs from page
   $("#image-section").empty();
   var buttonSearchTerm = this.title;
+  console.log("searchtitle...",buttonSearchTerm);
   var buttonQueryURL = "https://api.giphy.com/v1/gifs/search?q=" + buttonSearchTerm + "&api_key=" + APIKey + "&limit=10";
   $.ajax({
     url: buttonQueryURL,
@@ -41,7 +42,6 @@ $("button").on("click", function() {
     for (i = 0; i < 10; i++) {
       var rating = response.data[i].rating;
       var imageURL = response.data[i].images.fixed_width_still.url;
-      
       // Add gifs to page as bootstrap cards  
       createCard(rating, imageURL);
     }
@@ -53,7 +53,7 @@ function createButton(title, id, text) {
   var newButton = $("<button>");
   newButton.attr("title", title);
   newButton.attr("id", id);
-  newButton.attr("class", "btn btn-secondary");
+  newButton.attr("class", "btn btn-secondary gif-buttons");
   newButton.attr("type", "button");
   $("#button-section").append(newButton);
   $(newButton).text(text);
@@ -102,7 +102,6 @@ $("#search-button").on("click", function() {
     for (i = 0; i < 10; i++) {
       var rating = response.data[i].rating;
       var imageURL = response.data[i].images.fixed_width_still.url;
-      
       // Push gifs to page in bootstrap Cards
       createCard(rating, imageURL);
     }
