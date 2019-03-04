@@ -30,23 +30,26 @@ $("button").on("click", function() {
     var buttonSearchTerm = this.title;  
     var buttonQueryURL = "https://api.giphy.com/v1/gifs/search?q="+buttonSearchTerm+"&api_key="+APIKey+"&limit=10"
     var buttontest = this.id;
-    rating = "This Rating";
-    imageURL = "https://www.firemagicgrills.com/wp-content/uploads/accessories-small-placeholder.jpg"
-    createCard(rating,imageURL);
+    // rating = "This Rating";
+    // imageURL = "https://www.firemagicgrills.com/wp-content/uploads/accessories-small-placeholder.jpg"
+    // createCard(rating,imageURL);
     
     // *** COMMENTED THIS SECTION OUT UNTIL THE CORS ERROR IS FIXED ***
     // *** ONCE AJAX REQUEST WORKS, REPLACE LAST 3 LINES ABOVE W/ CODE BELOW ***
-    // $.ajax({
-    //     url: buttonQueryURL,
-    //     type: "GET",
-    //     datatype: "jsonp",
-    // }).then(function(response) {
-    //     for (i=0; i<10; i++) {
-    //         rating = response.data[i].rating;
-    //         imageURL = response.data[i].embed_url;
-    //         createCard(rating,imageURL);
-    //     }
-    // });
+    $.ajax({
+        url: buttonQueryURL,
+        method: "GET",
+        // datatype: "jsonp",
+    }).then(function(response) {
+        for (i=0; i<10; i++) {
+            rating = response.data[i].rating;
+            var test5 = response.data[i].images.original.url;
+            imageURL = test5;
+            createCard(rating,imageURL);
+        }
+        console.log(response);
+        console.log("imageurl..",imageURL);
+    });
 });
 
 function createCard(rating,imageURL) {
