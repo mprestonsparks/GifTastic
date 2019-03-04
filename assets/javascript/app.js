@@ -46,7 +46,6 @@ $("button").on("click", function() {
       var imageURL = response.data[i].images.fixed_width_still.url;
       createCard(rating, imageURL);
     }
-    console.log(response);
   });
 });
 
@@ -110,7 +109,6 @@ $("#search-button").on("click", function() {
       // Push gifs to page in bootstrap Cards
       createCard(rating, imageURL);
     }
-    console.log(response);
   });
 });
 
