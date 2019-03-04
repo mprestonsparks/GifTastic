@@ -31,12 +31,7 @@ for (i = 0; i < topics.length; i++) {
 // REQUIRED** When user clicks a button, retrieve 10 static, non-animated gif images from the GIPHY API and place them on the page
 $("button").on("click", function() {
   var buttonSearchTerm = this.title;
-  var buttonQueryURL =
-    "https://api.giphy.com/v1/gifs/search?q=" +
-    buttonSearchTerm +
-    "&api_key=" +
-    APIKey +
-    "&limit=10";
+  var buttonQueryURL = "https://api.giphy.com/v1/gifs/search?q=" + buttonSearchTerm + "&api_key=" + APIKey + "&limit=10";
   $.ajax({
     url: buttonQueryURL,
     method: "GET"
@@ -93,12 +88,7 @@ $("#search-button").on("click", function() {
   createButton(title, id, text);
   // Request GIFs from Giphy API
   var newSearch = searchQuery;
-  var newSearchQueryURL =
-    "https://api.giphy.com/v1/gifs/search?q=" +
-    newSearch +
-    "&api_key=" +
-    APIKey +
-    "&limit=10";
+  var newSearchQueryURL = "https://api.giphy.com/v1/gifs/search?q=" + newSearch + "&api_key=" + APIKey + "&limit=10";
   $.ajax({
     url: newSearchQueryURL,
     method: "GET"
