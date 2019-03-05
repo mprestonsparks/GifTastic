@@ -8,50 +8,18 @@ var APIKey = "skQePfC92zigpKm93AxiEg6K4RiNlDTy";
 
 // REQUIREMENT 1** Create a list of GIF topics to initialize the site with
 var topics = [
-  "Miles+Davis",
-  "Duke+Ellington",
-  "John+Coltrane",
-  "Louis+Armstrong",
-  "Ella+Fitzgerald"
+  "Miles Davis",
+  "Duke Ellington",
+  "John Coltrane",
+  "Louis Armstrong",
+  "Ella Fitzgerald"
 ];
 
-// REQUIREMENT 2** Create buttons from the topics list via loop
-for (i = 0; i < topics.length; i++) {
-  var title = topics[i];
-  var id = "button" + i;
-  var text = topics[i];
-  createButton(title, id, text);
+// Replace the spaces between words with "+" to function property with API
+function fixForSearch(string) {
+  string.replace(/\s/g, "+");
+  return string;
 }
-
-// REQUIREMENT 3** When user clicks a button, retrieve 10 static, non-animated gif images from the GIPHY API and place them on the page
-// ** THIS MAKES THE SEARCH BUTTONS ACTIVE ON CLICK, BUT THROWS NEW UNDEFINED ERROR
-// ** ONCE ERROR IDENTIFIED, CHANGE $(".gif-buttons") TO $(document) HANDLER
-// $(document).on("click", $(".gif-buttons"), function(e) {
-
-$(".gif-buttons").on("click", function() {
-  // Clear existing gifs from page
-  $("#image-section").empty();
-  var buttonSearchTerm = this.title;
-
-  // ** USE NEXT LINE INSTEAD FOR $(document) EVENT HANDLER
-  // var buttonSearchTerm = e.target.title;
-  console.log("searchtitle...",buttonSearchTerm);
-  var buttonQueryURL = "https://api.giphy.com/v1/gifs/search?q=" + buttonSearchTerm + "&api_key=" + APIKey + "&limit=10";
-  $.ajax({
-    url: buttonQueryURL,
-    method: "GET"
-  }).then(function(response) {
-    for (i = 0; i < 10; i++) {
-      var rating = response.data[i].rating;
-      var imageURL = response.data[i].images.fixed_width_still.url;
-      var cardID = i;
-      var imgTitle = buttonSearchTerm;
-      // Add gifs to page as bootstrap cards  
-      createCard(rating, imageURL, cardID, imgTitle);
-      console.log(response);
-    }
-  });
-});
 
 // Create a new button and add to end of the button section
 function createButton(title, id, text) {
@@ -88,6 +56,43 @@ function createCard(rating, imageURL, cardID, imgTitle) {
   cardButton.text("Animate");
   $(newCard).append(cardButton);
 }
+
+// REQUIREMENT 2** Create buttons from the topics list via loop
+for (i = 0; i < topics.length; i++) {
+  var title = fixForSearch(topics[i]);
+  var id = "button" + i;
+  var text = topics[i];
+  createButton(title, id, text);
+}
+
+// REQUIREMENT 3** When user clicks a button, retrieve 10 static, non-animated gif images from the GIPHY API and place them on the page
+// ** THIS MAKES THE SEARCH BUTTONS ACTIVE ON CLICK, BUT THROWS NEW UNDEFINED ERROR
+// ** ONCE ERROR IDENTIFIED, CHANGE $(".gif-buttons") TO $(document) HANDLER
+// $(document).on("click", $(".gif-buttons"), function(e) {
+$(".gif-buttons").on("click", function() {
+  // Clear existing gifs from page
+  $("#image-section").empty();
+  var buttonTitle = this.title;
+  var buttonSearchTerm = buttonTitle;
+  // ** USE NEXT LINE INSTEAD FOR $(document) EVENT HANDLER
+  // var buttonSearchTerm = e.target.title;
+  console.log("searchtitle...",buttonSearchTerm);
+  var buttonQueryURL = "https://api.giphy.com/v1/gifs/search?q=" + buttonSearchTerm + "&api_key=" + APIKey + "&limit=10";
+  $.ajax({
+    url: buttonQueryURL,
+    method: "GET"
+  }).then(function(response) {
+    for (i = 0; i < 10; i++) {
+      var rating = response.data[i].rating;
+      var imageURL = response.data[i].images.fixed_width_still.url;
+      var cardID = i;
+      var imgTitle = buttonSearchTerm;
+      // Add gifs to page as bootstrap cards  
+      createCard(rating, imageURL, cardID, imgTitle);
+      console.log(response);
+    }
+  });
+});
 
 // REQUIREMENT 4** When a topic is searched, give it a button and add to page
 // REQUIREMENT 5** Display the rating of each GIF
@@ -126,7 +131,6 @@ $("#search-button").on("click", function() {
 
 // REQUIREMENT 6** When user clicks an image, the GIF begins to animate
 // REQUIREMENT 7** When user clicks a gif while animated, pause the GIF/convert back to static image
-
 // *** NEXT LINE MAKES THE SEARCH BUTTONS ACTIVE, BUT THROWS NEW UNDEFINED ERROR
 // $(document).on("click", $(".card-buttons-wrapper"), function(e) { 
 $(".card-buttons-wrapper").click(function (e) {
