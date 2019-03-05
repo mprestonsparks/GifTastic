@@ -26,7 +26,7 @@ function createButton(title, id, text) {
   var newButton = $("<button>");
   newButton.attr("title", title);
   newButton.attr("id", id);
-  newButton.attr("class", "btn btn-secondary gif-buttons");
+  newButton.attr("class", "btn btn-dark gif-buttons");
   newButton.attr("type", "button");
   $("#button-section").append(newButton);
   $(newButton).text(text);
