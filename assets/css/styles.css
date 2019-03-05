@@ -43,6 +43,12 @@ h5 {
 
 #search-button {
   color: #feda6a;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+#search-header {
+  color: #feda6a;
+  font-family: 'IBM Plex Sans', sans-serif;
 }
   
   
