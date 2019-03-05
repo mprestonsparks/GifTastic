@@ -42,8 +42,11 @@ $(".gif-buttons").on("click", function() {
     for (i = 0; i < 10; i++) {
       var rating = response.data[i].rating;
       var imageURL = response.data[i].images.fixed_width_still.url;
+      var cardID = i;
+      var imgTitle = buttonSearchTerm;
       // Add gifs to page as bootstrap cards  
-      createCard(rating, imageURL);
+      createCard(rating, imageURL, cardID, imgTitle);
+      console.log(response);
     }
   });
 });
@@ -60,7 +63,7 @@ function createButton(title, id, text) {
 }
 
 // Create new bootstrap card to contain gif and rating
-function createCard(rating, imageURL) {
+function createCard(rating, imageURL, cardID, imgTitle) {
   var newCard = $("<div>");
   newCard.attr("class", "card");
   $("#image-section").prepend(newCard);
@@ -70,10 +73,18 @@ function createCard(rating, imageURL) {
   $(cardText).text("Rating: " + rating);
   var newImg = $("<img>");
   newImg.attr("class", "card-img");
+  newImg.attr("id","cardImg" + cardID);
+  newImg.data("state","still");
+  newImg.data("title",imgTitle);
   newImg.attr("src", imageURL);
   newImg.attr("alt", " ");
   $(cardText).append(newImg);
-  $(newCard).append($("<button>"));
+  var cardButton = $("<button>");
+  cardButton.attr("class", "btn btn-secondary card-buttons");
+  cardButton.attr("id","cardButton" + cardID);
+  cardButton.attr("type","button");
+  cardButton.text("Animate");
+  $(newCard).append(cardButton);
 }
 
 // REQUIRED** When a topic is searched, give it a button and add to page
@@ -109,11 +120,33 @@ $("#search-button").on("click", function() {
   });
 });
 
-// When user clicks an image, the GIF begins to animate
-// When user clicks a gif while animated, pause the GIF/convert back to static image
-$("#image-section").on("click",function() {
-    
-    console.log(this);
-    // var cardURL = this.attr("src");
-    // console.log("cardURL..",cardURL);
-});
+// REQUIRED** When user clicks an image, the GIF begins to animate
+// REQUIRED** When user clicks a gif while animated, pause the GIF/convert back to static image
+$(".card-buttons-wrapper").click(function(e){
+  var idClicked = e.target.id;
+  var idNum = idClicked[idClicked.length -1]
+  var imageNum = "#cardImg" + idNum;
+  var imageTitle = $(imageNum).data("title");
+  var checkState = $(imageNum).data("state");
+  var stateStill = checkState === "still";
+  var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + imageTitle + "&api_key=" + APIKey + "&limit=10"; // Change Tree to data-title once data-title works
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  }).then(function(response) {
+    var replaceGIFID = "#cardImg" + idNum;
+    var replaceGIF = $(replaceGIFID);
+    var stillURL = response.data[idNum].images.fixed_width_still.url;
+    var animatedURL = response.data[idNum].images.fixed_width.url;
+      if (stateStill) {
+        var imageURL = animatedURL;
+        $(replaceGIF).attr("src",imageURL);
+        $(imageNum).data("state","animated")
+      } else {
+        imageURL = stillURL;
+        $(replaceGIF).attr("src",imageURL);
+        $(imageNum).data("state","still");
+      }
+      
+    })
+  });
