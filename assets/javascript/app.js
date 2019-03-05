@@ -139,8 +139,8 @@ $(".card-buttons-wrapper").click(function (e) {
   var imageNum = "#cardImg" + idNum;
   var imageTitle = $(imageNum).data("title");
   var checkState = $(imageNum).data("state");
-  var stateStill = checkState === "still";
-  var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + imageTitle + "&api_key=" + APIKey + "&limit=10"; // Change Tree to data-title once data-title works
+  var stateStill = checkState === "still"; 
+  var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + imageTitle + "&api_key=" + APIKey + "&limit=10";
   $.ajax({
     url: queryURL,
     method: "GET"
