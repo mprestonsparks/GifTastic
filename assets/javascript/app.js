@@ -1,17 +1,12 @@
-// Open connection to the Giphy API
-// Create a list of GIF topics to initialize the site with
-// Create buttons from the topics list via loop
-// When user clicks a button, retrieve 10 static, non-animated gif images from the GIPHY API and place them on the page
-// When user clicks an image, the GIF beings to animate
-// When user clicks a gift while animated, pause the GIF/convert back to static image
-// Display the rating of each GIF
-// Push input from search form to the topics list
-// When a topic is searched, give it a button and add to page
+// ----- ERRORS -----
+// Buttons added via search box are not active/clickable after added... 
+// CHANGE EVENT HANDLERS TO DOCUMENTS WIDE- See comments in REQUIREMENT 3 AND REQUIREMENT 7
+// Changing event handlers causes new undefined error ("ratings", then "images")
 // *********************************************************************************************************
 
 var APIKey = "skQePfC92zigpKm93AxiEg6K4RiNlDTy";
 
-// REQUIRED** Create a list of GIF topics to initialize the site with
+// REQUIREMENT 1** Create a list of GIF topics to initialize the site with
 var topics = [
   "Miles+Davis",
   "Duke+Ellington",
@@ -20,7 +15,7 @@ var topics = [
   "Ella+Fitzgerald"
 ];
 
-// REQUIRED** Create buttons from the topics list via loop
+// REQUIREMENT 2** Create buttons from the topics list via loop
 for (i = 0; i < topics.length; i++) {
   var title = topics[i];
   var id = "button" + i;
@@ -28,11 +23,18 @@ for (i = 0; i < topics.length; i++) {
   createButton(title, id, text);
 }
 
-// REQUIRED** When user clicks a button, retrieve 10 static, non-animated gif images from the GIPHY API and place them on the page
+// REQUIREMENT 3** When user clicks a button, retrieve 10 static, non-animated gif images from the GIPHY API and place them on the page
+// ** THIS MAKES THE SEARCH BUTTONS ACTIVE ON CLICK, BUT THROWS NEW UNDEFINED ERROR
+// ** ONCE ERROR IDENTIFIED, CHANGE $(".gif-buttons") TO $(document) HANDLER
+// $(document).on("click", $(".gif-buttons"), function(e) {
+
 $(".gif-buttons").on("click", function() {
   // Clear existing gifs from page
   $("#image-section").empty();
   var buttonSearchTerm = this.title;
+
+  // ** USE NEXT LINE INSTEAD FOR $(document) EVENT HANDLER
+  // var buttonSearchTerm = e.target.title;
   console.log("searchtitle...",buttonSearchTerm);
   var buttonQueryURL = "https://api.giphy.com/v1/gifs/search?q=" + buttonSearchTerm + "&api_key=" + APIKey + "&limit=10";
   $.ajax({
@@ -87,8 +89,8 @@ function createCard(rating, imageURL, cardID, imgTitle) {
   $(newCard).append(cardButton);
 }
 
-// REQUIRED** When a topic is searched, give it a button and add to page
-// REQUIRED** Display the rating of each GIF
+// REQUIREMENT 4** When a topic is searched, give it a button and add to page
+// REQUIREMENT 5** Display the rating of each GIF
 // Push input from search form to the topics list
 $("#search-button").on("click", function() {
   event.preventDefault();
@@ -122,8 +124,11 @@ $("#search-button").on("click", function() {
   });
 });
 
-// REQUIRED** When user clicks an image, the GIF begins to animate
-// REQUIRED** When user clicks a gif while animated, pause the GIF/convert back to static image
+// REQUIREMENT 6** When user clicks an image, the GIF begins to animate
+// REQUIREMENT 7** When user clicks a gif while animated, pause the GIF/convert back to static image
+
+// *** NEXT LINE MAKES THE SEARCH BUTTONS ACTIVE, BUT THROWS NEW UNDEFINED ERROR
+// $(document).on("click", $(".card-buttons-wrapper"), function(e) { 
 $(".card-buttons-wrapper").click(function (e) {
   var idClicked = e.target.id;
   var idNum = idClicked[idClicked.length - 1]
@@ -139,6 +144,7 @@ $(".card-buttons-wrapper").click(function (e) {
     var replaceGIFID = "#cardImg" + idNum;
     var replaceGIF = $(replaceGIFID);
     var stillURL = response.data[idNum].images.fixed_width_still.url;
+    var rating = response.data[idNum].rating;
     var animatedURL = response.data[idNum].images.fixed_width.url;
     if (stateStill) {
       var imageURL = animatedURL;
