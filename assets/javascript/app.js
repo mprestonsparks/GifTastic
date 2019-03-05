@@ -73,6 +73,7 @@ function createCard(rating, imageURL) {
   newImg.attr("src", imageURL);
   newImg.attr("alt", " ");
   $(cardText).append(newImg);
+  $(newCard).append($("<button>"));
 }
 
 // REQUIRED** When a topic is searched, give it a button and add to page
@@ -110,3 +111,9 @@ $("#search-button").on("click", function() {
 
 // When user clicks an image, the GIF begins to animate
 // When user clicks a gif while animated, pause the GIF/convert back to static image
+$("#image-section").on("click",function() {
+    
+    console.log(this);
+    // var cardURL = this.attr("src");
+    // console.log("cardURL..",cardURL);
+});
