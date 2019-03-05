@@ -14,11 +14,17 @@ hr {
   background-color: #d4d4dc;
 }
   
+h5 {
+  color: #feda6a;
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+}
+
 .btn {
-  margin: 20px 10px 15px 0;
+  margin: 0px 10px 15px 0;
   background-color: #393f4d;
   color: #d4d4dc;
   font-family: 'IBM Plex Sans', sans-serif;
+  text-transform: capitalize;
 }
   
 .card {
