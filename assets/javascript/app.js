@@ -114,17 +114,19 @@ $("#search-button").on("click", function() {
     for (i = 0; i < 10; i++) {
       var rating = response.data[i].rating;
       var imageURL = response.data[i].images.fixed_width_still.url;
+      var cardID = i;
+      var imgTitle = searchQuery;
       // Push gifs to page in bootstrap Cards
-      createCard(rating, imageURL);
+      createCard(rating, imageURL, cardID, imgTitle);
     }
   });
 });
 
 // REQUIRED** When user clicks an image, the GIF begins to animate
 // REQUIRED** When user clicks a gif while animated, pause the GIF/convert back to static image
-$(".card-buttons-wrapper").click(function(e){
+$(".card-buttons-wrapper").click(function (e) {
   var idClicked = e.target.id;
-  var idNum = idClicked[idClicked.length -1]
+  var idNum = idClicked[idClicked.length - 1]
   var imageNum = "#cardImg" + idNum;
   var imageTitle = $(imageNum).data("title");
   var checkState = $(imageNum).data("state");
@@ -133,20 +135,19 @@ $(".card-buttons-wrapper").click(function(e){
   $.ajax({
     url: queryURL,
     method: "GET"
-  }).then(function(response) {
+  }).then(function (response) {
     var replaceGIFID = "#cardImg" + idNum;
     var replaceGIF = $(replaceGIFID);
     var stillURL = response.data[idNum].images.fixed_width_still.url;
     var animatedURL = response.data[idNum].images.fixed_width.url;
-      if (stateStill) {
-        var imageURL = animatedURL;
-        $(replaceGIF).attr("src",imageURL);
-        $(imageNum).data("state","animated")
-      } else {
-        imageURL = stillURL;
-        $(replaceGIF).attr("src",imageURL);
-        $(imageNum).data("state","still");
-      }
-      
-    })
-  });
+    if (stateStill) {
+      var imageURL = animatedURL;
+      $(replaceGIF).attr("src", imageURL);
+      $(imageNum).data("state", "animated")
+    } else {
+      imageURL = stillURL;
+      $(replaceGIF).attr("src", imageURL);
+      $(imageNum).data("state", "still");
+    }
+  })
+});
